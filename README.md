@@ -131,16 +131,50 @@ $u = \frac{u_0 - z_{n+1}}{b_0}$
 
 ---
 
+### 4 Explicación del Tema: Rechazo Activo a Perturbaciones en Sistemas No Lineales  
+
+El **Rechazo Activo a Perturbaciones (RAP)** es una técnica de control avanzada diseñada para mitigar o eliminar los efectos de perturbaciones externas o internas en sistemas dinámicos, especialmente en aquellos que son **no lineales**.  
+
+---
+
+## **Conceptos Clave**  
+1. **Perturbaciones**:  
+   - Señales o fuerzas externas no deseadas (ej: ruido, variaciones de carga).  
+2. **Sistemas No Lineales**:  
+   - Sistemas cuya respuesta no es proporcional a la entrada (ej: robots, motores eléctricos).  
+3. **Rechazo Activo**:  
+   - Detección y compensación en tiempo real de perturbaciones.  
+
+---
+
+## **Objetivos del RAP**  
+| Objetivo          | Descripción                                                                 |  
+|-------------------|-----------------------------------------------------------------------------|  
+| **Estabilidad**   | Mantener el sistema estable ante perturbaciones.                            |  
+| **Robustez**      | Funcionamiento correcto incluso con modelos imperfectos del sistema.        |  
+| **Precisión**     | Minimizar errores causados por perturbaciones.                              |  
+
+---
+
+## **Técnicas Comunes**  
+- Control por Modos Deslizantes (SMC): Ideal para sistemas no lineales, forza al sistema a seguir una trayectoria deseada a pesar de perturbaciones.
+
+- Observadores de Perturbaciones: Estimán y compensan perturbaciones en tiempo real (ej: Observador de Estados Extendido - ESO).
+
+- Control Adaptativo: Ajusta parámetros del controlador según cambios en el sistema o perturbaciones.
+
+
 ## Ejercicios Adicionales
 
 ### Ejercicio 3: Sistema no lineal con acoplamiento trigonométrico
 
 Dado el sistema:  
-$$ \dot{x} = -k_1 x - k_2 \sin(x) + c u $$  
+$\dot{x} = -k_1 x - k_2 \sin(x) + c u$  
 
 #### 1. Linealización alrededor del punto de operación
 
 **Paso 1:** Definir punto de operación  
+
 Sea $(x_0, u_0)$ tal que $\dot{x} = 0$:  
 $0 = -k_1 x_0 - k_2 \sin(x_0) + c u_0$
 
