@@ -77,6 +77,12 @@ plt.show()
 
 ### 2. Observador de Estados Extendido (ESO)
 
+
+![image](https://github.com/user-attachments/assets/eb9b9ea5-5c38-4470-96d9-393d47daef4c)
+
+fig 2 . Observador de Estados Extendido
+
+
 El **Observador de Estados Extendido (ESO** es el componente central del control ADRC que permite estimar y compensar perturbaciones en tiempo real sin requerir un modelo preciso del sistema. Su funcionamiento se basa en expandir el espacio de estados tradicional para incluir no solo las variables de estado físicas, sino también un "estado extendido" que representa la perturbación total que afecta al sistema (incluyendo dinámicas no modeladas, perturbaciones externas y variaciones paramétricas).
 
 El ESO opera mediante un conjunto de ecuaciones diferenciales acopladas que comparan continuamente la salida real del sistema con la salida estimada, ajustando dinámicamente sus estados internos. Para un sistema de segundo orden, por ejemplo, utiliza tres ecuaciones: dos para estimar los estados físicos (posición y velocidad) y una tercera para estimar la perturbación agregada. Las ganancias del observador (β) se sintonizan típicamente en función de un único parámetro (el ancho de banda ωₒ), lo que simplifica notablemente su implementación práctica.
@@ -108,6 +114,12 @@ end
 ```
 
 ### 3. Ley de Control del ADRC
+
+
+![image](https://github.com/user-attachments/assets/667b5e12-d0b5-46b6-9b07-9c72ce3b227e)
+
+Fig 3. Ley de Control del ADRC.
+
 
 El tercer pilar del ADRC es su innovadora **Ley de Control**, que combina de manera elegante la realimentación de estados con la cancelación activa de perturbaciones. A diferencia de los esquemas de control tradicionales que intentan rechazar perturbaciones después de que afectan al sistema, el ADRC las anticipa y neutraliza mediante un enfoque de dos etapas:
 
