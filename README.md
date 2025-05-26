@@ -22,7 +22,7 @@ Esta técnica ha demostrado ser efectiva en aplicaciones de control de movimient
 
 El **Control por Rechazo Activo de Perturbaciones (ADRC)** se estructura en tres componentes fundamentales que trabajan sinérgicamente para lograr un control robusto independiente del modelo preciso de la planta. El **Generador de Trayectorias** transforma referencias abruptas en perfiles suaves, preservando los actuadores de esfuerzos bruscos. El **Observador de Estados Extendido (ESO)**, corazón del ADRC, estima en tiempo real tanto los estados no medibles como las perturbaciones totales (internas y externas), agrupándolas en una única señal a compensar. Finalmente, la **Ley de Control** combina realimentación de estados y cancelación activa de perturbaciones, simplificando el sistema a una cadena de integradores nominales. Esta arquitectura permite controlar sistemas complejos con sólo conocer su orden dinámico y una aproximación gruesa de su ganancia, demostrando especial eficacia en sistemas no lineales, de parámetros variables o bajo perturbaciones significativas, superando así limitaciones clásicas del control PID tradicional.
 
-### 1. Generador de Trayectorias
+## 1. Generador de Trayectorias
 Define la referencia deseada para el sistema. Ejemplo:
 
 Para un sistema de segundo orden, el generador puede ser:  
@@ -75,7 +75,7 @@ plt.title('Generador de Trayectorias ADRC')
 plt.show()
 ```
 
-### 2. Observador de Estados Extendido (ESO)
+## 2. Observador de Estados Extendido (ESO)
 
 
 ![image](https://github.com/user-attachments/assets/eb9b9ea5-5c38-4470-96d9-393d47daef4c)
@@ -190,7 +190,7 @@ def ESO_discrete_step(y, u):
     return z1, z2, z3
 ```
 
-### 3. Ley de Control del ADRC
+## 3. Ley de Control del ADRC
 
 
 ![image](https://github.com/user-attachments/assets/667b5e12-d0b5-46b6-9b07-9c72ce3b227e)
@@ -290,7 +290,7 @@ def ADRC_Controller(r, z1, z2, z3):
 
 
 
-### 4 Explicación del Tema: Rechazo Activo a Perturbaciones en Sistemas No Lineales  
+## 4 Explicación del Tema: Rechazo Activo a Perturbaciones en Sistemas No Lineales  
 
 ![image](https://github.com/user-attachments/assets/35f85db7-d293-4b7c-bd41-e8346f045f29)
 
@@ -355,13 +355,7 @@ u(t) = K_p e(t) + K_i \int e(t)dt + K_d \frac{de(t)}{dt}
 
 
 
-
-
-
-
-
-
-### 6 Observador de Luenberger
+## 6 Observador de Luenberger
 
 En sistemas de control, no siempre es posible medir todas las variables de estado del sistema. Para estimar estas variables no medibles, se utilizan **observadores**. Uno de los más comunes y fundamentales es el **Observador de Luenberger**, diseñado para sistemas lineales.
 
@@ -515,27 +509,6 @@ $C = \begin{bmatrix} 1 & 1 \end{bmatrix}$
 3. Calcula la matriz \( L \).  
 
 *Tip:* Usa el método de asignación de polos mediante comparación de polinomios característicos.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ## Ejercicios Adicionales
