@@ -151,7 +151,7 @@ Donde:
 ---
 
 ## 💡  Ejemplo 2: ESO en tiempo discreto (Euler)
-
+  
 # Parámetros del sistema
 $$
 a0 = 2
