@@ -18,8 +18,19 @@ Esta técnica ha demostrado ser efectiva en aplicaciones de control de movimient
 ### 1. Generador de Trayectorias
 Define la referencia deseada para el sistema. Ejemplo:  
 Para un sistema de segundo orden, el generador puede ser:  
-\[ \ddot{y}^* + 2\zeta\omega_n \dot{y}^* + \omega_n^2 y^* = \omega_n^2 r(t) \]  
-donde \( r(t) \) es la señal de referencia y \( \zeta \), \( \omega_n \) son parámetros de diseño.
+
+## 1.1Formulación Matemática
+```math
+\begin{aligned}
+&\text{Sistema de 2do orden:} \\
+&\ddot{y}^* + 2\zeta\omega_n\dot{y}^* + \omega_n^2y^* = \omega_n^2r(t) \\
+&\text{Donde:} \\
+&\quad \omega_n = \text{Frecuencia natural} \\
+&\quad \zeta = \text{Factor de amortiguamiento}
+\end{aligned}
+```
+
+
 
 ### 2. Observador de Estados Extendido (ESO)
 Estima estados no medibles y perturbaciones. Para un sistema lineal:  
