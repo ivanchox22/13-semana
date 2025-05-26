@@ -120,7 +120,8 @@ $u = \frac{u_0 - z_{n+1}}{b_0}$
 
 ## Ejercicios Resueltos
 
-### Ejercicio 1: Diseño de un ADRC para un sistema masa-resorte-amortiguador
+### 🔑 Ejercicio 1: Diseño de un ADRC para un sistema masa-resorte-amortiguador
+
 **Planta**:  
 \[ M\ddot{y} + B\dot{y} + Ky = u(t) + w(t) \]  
 **Paso 1**: Reformular como:  
@@ -132,13 +133,39 @@ $u = \frac{u_0 - z_{n+1}}{b_0}$
 
 ## Ejercicios Adicionales
 
-### Ejercicio 2: Sistema no lineal
-Dado el sistema:  
-\[ \dot{y} = -a_1 y - a_0 y^3 + b u \]  
-1. Linealizar alrededor de un punto de operación.  
-2. Diseñar un ADRC no lineal (NADRC) usando la función `fal(e, α, δ)`.  
+### 🔑 Ejercicio 3: Sistema no lineal con acoplamiento trigonométrico
 
-### Ejercicio 3: Variación paramétrica
+Dado el sistema:  
+$$ \dot{x} = -k_1 x - k_2 \sin(x) + c u $$  
+
+#### 1. Linealización alrededor del punto de operación
+
+**Paso 1:** Definir punto de operación  
+Sea $(x_0, u_0)$ tal que $\dot{x} = 0$:  
+$0 = -k_1 x_0 - k_2 \sin(x_0) + c u_0$
+
+**Paso 2:** Expansión en serie de Taylor  
+$\Delta \dot{x} \approx \left.\frac{\partial f}{\partial x}\right|_{x_0} \Delta x + \left.\frac{\partial f}{\partial u}\right|_{u_0} \Delta u$  
+Donde:  
+$\frac{\partial f}{\partial x} = -k_1 - k_2 \cos(x), \quad \frac{\partial f}{\partial u} = c$
+
+**Resultado linealizado:**  
+$\Delta \dot{x} = (-k_1 - k_2 \cos(x_0)) \Delta x + c \Delta u$
+
+#### 2. Diseño de NADRC con función `fal(e, α, δ)`
+
+**Estructura del controlador:**  
+```python
+def fal(e, alpha, delta):
+    return np.abs(e)**alpha * np.sign(e) if np.abs(e) > delta else e/(delta**(1-alpha))
+```
+
+# Parámetros NADRC
+alpha = 0.5  # Factor no lineal
+delta = 0.1  # Zona lineal
+b0 = c       # Ganancia aproximada
+
+### 🔑 Ejercicio 3: Variación paramétrica
 Simular un ADRC para:  
 \[ \ddot{y} = (4.75 - 4.5y)u + 0.7\dot{y} - 0.25y \]  
 Evaluar desempeño con perturbaciones en rampa y sinusoidal.
