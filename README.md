@@ -120,7 +120,7 @@ $u = \frac{u_0 - z_{n+1}}{b_0}$
 
 ## Ejercicios Resueltos
 
-### 🔑 Ejercicio 1: Diseño de un ADRC para un sistema masa-resorte-amortiguador
+### Ejercicio 1: Diseño de un ADRC para un sistema masa-resorte-amortiguador
 
 **Planta**:  
 \[ M\ddot{y} + B\dot{y} + Ky = u(t) + w(t) \]  
@@ -133,7 +133,7 @@ $u = \frac{u_0 - z_{n+1}}{b_0}$
 
 ## Ejercicios Adicionales
 
-### 🔑 Ejercicio 3: Sistema no lineal con acoplamiento trigonométrico
+### Ejercicio 3: Sistema no lineal con acoplamiento trigonométrico
 
 Dado el sistema:  
 $$ \dot{x} = -k_1 x - k_2 \sin(x) + c u $$  
@@ -165,7 +165,7 @@ alpha = 0.5  # Factor no lineal
 delta = 0.1  # Zona lineal
 b0 = c       # Ganancia aproximada
 
-### 🔑 Ejercicio 3: Variación paramétrica
+### Ejercicio 3: Variación paramétrica
 Simular un ADRC para:  
 \[ \ddot{y} = (4.75 - 4.5y)u + 0.7\dot{y} - 0.25y \]  
 Evaluar desempeño con perturbaciones en rampa y sinusoidal.
