@@ -222,6 +222,74 @@ $\ddot{y} = \frac{u}{M} + \epsilon(t), \quad \epsilon(t) = -\frac{B}{M}\dot{y} -
 
 ---
 
+
+# 💡  Ejemplos de Ley de Control del ADRC
+
+## Fundamento
+
+La **Ley de Control** del ADRC se basa en cancelar el efecto de la perturbación total estimada $z_3$ y forzar la dinámica deseada mediante retroalimentación de estados:
+
+$$
+u(t) = \frac{u_0(t) - z_3(t)}{b_0}
+$$
+
+Donde:
+
+- $z_1$, $z_2$ = estados estimados por el ESO
+- $z_3$ = perturbación total estimada
+- $b_0$ = estimación del coeficiente de entrada
+- $u_0(t)$ = controlador de referencia, típicamente PD o PID basado en el error $e(t) = r(t) - z_1(t)$
+
+---
+
+##  💡 Ejemplo 1: ADRC con control proporcional-derivativo (PD)
+
+### Sistema a controlar
+
+$$
+\ddot{x} + a_1 \dot{x} + a_0 x = b u + d(t)
+$$
+
+### Ley de control ADRC:
+
+$$
+\begin{aligned}
+e(t) &= r(t) - z_1(t) \\
+u_0(t) &= k_p \cdot e(t) + k_d \cdot \left( \frac{d}{dt}e(t) \right) \\
+u(t) &= \frac{u_0(t) - z_3(t)}{b_0}
+\end{aligned}
+$$
+
+---
+
+## 💡  Ejemplo 2: Implementación en Python (tiempo discreto)
+
+```python
+# Parámetros
+b0 = 1.0
+kp = 300
+kd = 30
+Ts = 0.001
+
+# Variables globales
+e_prev = 0
+
+def ADRC_Controller(r, z1, z2, z3):
+    global e_prev
+
+    # Error y derivada
+    e = r - z1
+    de = (e - e_prev) / Ts
+    e_prev = e
+
+    # Ley de control
+    u0 = kp * e + kd * de
+    u = (u0 - z3) / b0
+    return u
+```
+
+
+
 ### 4 Explicación del Tema: Rechazo Activo a Perturbaciones en Sistemas No Lineales  
 
 ![image](https://github.com/user-attachments/assets/35f85db7-d293-4b7c-bd41-e8346f045f29)
