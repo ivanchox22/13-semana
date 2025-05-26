@@ -501,12 +501,13 @@ $L = \begin{bmatrix} 7 \\ 3 \end{bmatrix}$
 
 Dado el sistema:
 
+```math
+A = \begin{bmatrix} 1 & 2 \\ 0 & 3 \end{bmatrix}
 
-$A = \begin{bmatrix} 1 & 2 \\ 0 & 3 \end{bmatrix}$
+B = \begin{bmatrix} 0 \\ 1 \end{bmatrix}
 
-$B = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$
-
-$C = \begin{bmatrix} 1 & 1 \end{bmatrix}$
+C = \begin{bmatrix} 1 & 1 \end{bmatrix}
+```
 
 1. Verifica si el sistema es observable.  
 2. Diseña un observador de Luenberger con polos en \( s = -2 \) y \( s = -4 \).  
