@@ -166,26 +166,25 @@ El **Rechazo Activo a Perturbaciones (RAP)** es una técnica de control avanzada
 
 ### 5 Rechazo Activo a Perturbaciones en Sistemas Lineales
 
-## Introducción
 El **Rechazo Activo a Perturbaciones (RAP)** en sistemas lineales es una estrategia fundamental en teoría de control para mantener el desempeño del sistema ante influencias externas no deseadas. A diferencia de los sistemas no lineales, aquí se aprovecha la superposición y las propiedades de linealidad para diseñar compensadores eficientes.
 
 ---
 
-## Conceptos Básicos
-### 1. Perturbaciones en Sistemas Lineales
+#### Conceptos Básicos
+#### 1. Perturbaciones en Sistemas Lineales
 - **Definición**: Señales externas o variaciones de parámetros que afectan la salida (ej: ruido eléctrico, vibraciones mecánicas).
 - **Clasificación**:
   - **Aditivas**: `y(t) = G(s)u(t) + d(t)`
   - **Multiplicativas**: Cambios en parámetros del sistema (ej: resistencia en circuitos).
 
-### 2. Propiedades Clave
+#### 2. Propiedades Clave
 - **Superposición**: La respuesta a múltiples perturbaciones es la suma de sus efectos individuales.
 - **Invariante en el Tiempo**: Comportamiento predecible ante perturbaciones constantes.
 
 ---
 
-## Técnicas de Rechazo
-### A. Control Integral (I) y PID
+#### Técnicas de Rechazo
+#### A. Control Integral (I) y PID
 ```math
 u(t) = K_p e(t) + K_i \int e(t)dt + K_d \frac{de(t)}{dt}
 ```
