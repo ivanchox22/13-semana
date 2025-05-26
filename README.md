@@ -15,11 +15,14 @@ Esta técnica ha demostrado ser efectiva en aplicaciones de control de movimient
 
 ## Componentes del ADRC
 
+El **Control por Rechazo Activo de Perturbaciones (ADRC)** se estructura en tres componentes fundamentales que trabajan sinérgicamente para lograr un control robusto independiente del modelo preciso de la planta. El **Generador de Trayectorias** transforma referencias abruptas en perfiles suaves, preservando los actuadores de esfuerzos bruscos. El **Observador de Estados Extendido (ESO)**, corazón del ADRC, estima en tiempo real tanto los estados no medibles como las perturbaciones totales (internas y externas), agrupándolas en una única señal a compensar. Finalmente, la **Ley de Control** combina realimentación de estados y cancelación activa de perturbaciones, simplificando el sistema a una cadena de integradores nominales. Esta arquitectura permite controlar sistemas complejos con sólo conocer su orden dinámico y una aproximación gruesa de su ganancia, demostrando especial eficacia en sistemas no lineales, de parámetros variables o bajo perturbaciones significativas, superando así limitaciones clásicas del control PID tradicional.
+
 ### 1. Generador de Trayectorias
-Define la referencia deseada para el sistema. Ejemplo:  
+Define la referencia deseada para el sistema. Ejemplo:
+
 Para un sistema de segundo orden, el generador puede ser:  
 
-## 1.1Formulación Matemática
+#### 1.1 Formulación Matemática
 ```math
 \begin{aligned}
 &\text{Sistema de 2do orden:} \\
@@ -29,6 +32,29 @@ Para un sistema de segundo orden, el generador puede ser:
 &\quad \zeta = \text{Factor de amortiguamiento}
 \end{aligned}
 ```
+
+#### 1.1 Implementación en Python
+
+```math
+import numpy as np
+
+def generate_trajectory(t, r, wn, zeta):
+    """Genera trayectoria suavizada para referencia escalón"""
+    y = np.zeros_like(t)
+    yd = np.zeros_like(t)
+    ydd = np.zeros_like(t)
+    
+    for i in range(1, len(t)):
+        dt = t[i] - t[i-1]
+        ydd[i] = wn**2*(r[i] - y[i-1]) - 2*zeta*wn*yd[i-1]
+        yd[i] = yd[i-1] + ydd[i]*dt
+        y[i] = y[i-1] + yd[i]*dt
+        
+    return y, yd, ydd
+```
+
+#### 1.2 Ejemplo de Uso
+
 
 
 
