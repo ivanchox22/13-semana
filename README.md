@@ -107,11 +107,16 @@ for i = 1:n+1
 end
 ```
 
-### 3. Ley de Control
-Combina realimentación de estados y compensación de perturbaciones:  
-\[ u = \frac{u_0 - z_3}{b_0}, \quad u_0 = k_1(y^* - z_1) - k_2 z_2 \]
+### 3. Ley de Control del ADRC
 
----
+El tercer pilar del ADRC es su innovadora **Ley de Control**, que combina de manera elegante la realimentación de estados con la cancelación activa de perturbaciones. A diferencia de los esquemas de control tradicionales que intentan rechazar perturbaciones después de que afectan al sistema, el ADRC las anticipa y neutraliza mediante un enfoque de dos etapas:
+
+1. **Compensación de Perturbaciones**: Utiliza la estimación de la perturbación total (zₙ₊₁) proporcionada por el ESO para cancelarla directamente en la señal de control.
+2. **Realimentación de Estados**: Aplica una ley de control convencional (usualmente PD) sobre el sistema nominal libre de perturbaciones.
+
+La forma general de la ley es:
+
+$u = \frac{u_0 - z_{n+1}}{b_0}$
 
 ## Ejercicios Resueltos
 
