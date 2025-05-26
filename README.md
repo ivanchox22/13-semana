@@ -104,7 +104,6 @@ class ESO:
         self.b0 = b0
         self.dt = dt
         self.z = np.zeros(3)
-        
     def update(self, y, u):
         e = y - self.z[0]
         self.z[0] += (self.z[1] + self.beta[0]*e) * self.dt
@@ -112,6 +111,7 @@ class ESO:
         self.z[2] += self.beta[2]*e * self.dt
         return self.z
 ```
+
 #### 2.3 Demostracion en MATLAB
 
 ```math
