@@ -95,24 +95,7 @@ Estima estados no medibles y perturbaciones. Para un sistema lineal:
 \end{cases}
 ```
 
-#### 2.2 Implementación Discreta en pyton
-
-```math
-class ESO:
-    def __init__(self, beta, b0, dt):
-        self.beta = np.array(beta)
-        self.b0 = b0
-        self.dt = dt
-        self.z = np.zeros(3)
-    def update(self, y, u):
-        e = y - self.z[0]
-        self.z[0] += (self.z[1] + self.beta[0]*e) * self.dt
-        self.z[1] += (self.z[2] + self.beta[1]*e + self.b0*u) * self.dt
-        self.z[2] += self.beta[2]*e * self.dt
-        return self.z
-```
-
-#### 2.3 Demostracion en MATLAB
+#### 2.2 Demostracion en MATLAB
 
 ```math
 % MATLAB: Cálculo de ganancias para ancho de banda wo
