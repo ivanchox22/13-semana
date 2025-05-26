@@ -112,9 +112,9 @@ for i = 1:n+1
     beta(i) = factorial(n+1)/(factorial(i)*factorial(n+1-i)) * wo^i;
 end
 ```
-# 📘 Ejemplos de Observador de Estados Extendido (ESO)
+# 💡  Ejemplos de Observador de Estados Extendido (ESO)
 
-## 🧩 Ejemplo 1: ESO para un sistema lineal de segundo orden (tiempo continuo)
+## 💡  Ejemplo 1: ESO para un sistema lineal de segundo orden (tiempo continuo)
 
 Consideremos un sistema lineal:
 
@@ -150,26 +150,32 @@ Donde:
 
 ---
 
-## 🧮 Ejemplo 2: ESO en tiempo discreto (Euler)
+## 💡  Ejemplo 2: ESO en tiempo discreto (Euler)
 
-```python
 # Parámetros del sistema
+$$
 a0 = 2
 a1 = 3
 b = 1
 Ts = 0.001
 omega = 30
+$$
 
 # Ganancias del ESO
+$$
 L1 = 3 * omega
 L2 = 3 * omega**2
 L3 = omega**3
+$$
 
 # Inicialización de estados
+$$
 z1 = 0
 z2 = 0
 z3 = 0
+$$
 
+```python
 def ESO_discrete_step(y, u):
     global z1, z2, z3
     e = y - z1
@@ -182,7 +188,7 @@ def ESO_discrete_step(y, u):
     z3 += Ts * dz3
 
     return z1, z2, z3
-
+```
 
 ### 3. Ley de Control del ADRC
 
