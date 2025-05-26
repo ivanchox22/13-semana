@@ -137,7 +137,7 @@ El **Rechazo Activo a Perturbaciones (RAP)** es una técnica de control avanzada
 
 ---
 
-## **Conceptos Clave**  
+#### **Conceptos Clave**  
 1. **Perturbaciones**:  
    - Señales o fuerzas externas no deseadas (ej: ruido, variaciones de carga).  
 2. **Sistemas No Lineales**:  
@@ -147,7 +147,7 @@ El **Rechazo Activo a Perturbaciones (RAP)** es una técnica de control avanzada
 
 ---
 
-## **Objetivos del RAP**  
+#### **Objetivos del RAP**  
 | Objetivo          | Descripción                                                                 |  
 |-------------------|-----------------------------------------------------------------------------|  
 | **Estabilidad**   | Mantener el sistema estable ante perturbaciones.                            |  
@@ -156,13 +156,39 @@ El **Rechazo Activo a Perturbaciones (RAP)** es una técnica de control avanzada
 
 ---
 
-## **Técnicas Comunes**  
+#### **Técnicas Comunes**  
 - Control por Modos Deslizantes (SMC): Ideal para sistemas no lineales, forza al sistema a seguir una trayectoria deseada a pesar de perturbaciones.
 
 - Observadores de Perturbaciones: Estimán y compensan perturbaciones en tiempo real (ej: Observador de Estados Extendido - ESO).
 
 - Control Adaptativo: Ajusta parámetros del controlador según cambios en el sistema o perturbaciones.
 
+
+### 5 Rechazo Activo a Perturbaciones en Sistemas Lineales
+
+## Introducción
+El **Rechazo Activo a Perturbaciones (RAP)** en sistemas lineales es una estrategia fundamental en teoría de control para mantener el desempeño del sistema ante influencias externas no deseadas. A diferencia de los sistemas no lineales, aquí se aprovecha la superposición y las propiedades de linealidad para diseñar compensadores eficientes.
+
+---
+
+## Conceptos Básicos
+### 1. Perturbaciones en Sistemas Lineales
+- **Definición**: Señales externas o variaciones de parámetros que afectan la salida (ej: ruido eléctrico, vibraciones mecánicas).
+- **Clasificación**:
+  - **Aditivas**: `y(t) = G(s)u(t) + d(t)`
+  - **Multiplicativas**: Cambios en parámetros del sistema (ej: resistencia en circuitos).
+
+### 2. Propiedades Clave
+- **Superposición**: La respuesta a múltiples perturbaciones es la suma de sus efectos individuales.
+- **Invariante en el Tiempo**: Comportamiento predecible ante perturbaciones constantes.
+
+---
+
+## Técnicas de Rechazo
+### A. Control Integral (I) y PID
+```math
+u(t) = K_p e(t) + K_i \int e(t)dt + K_d \frac{de(t)}{dt}
+```
 
 ## Ejercicios Adicionales
 
