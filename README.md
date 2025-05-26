@@ -23,6 +23,11 @@ Esta técnica ha demostrado ser efectiva en aplicaciones de control de movimient
 El **Control por Rechazo Activo de Perturbaciones (ADRC)** se estructura en tres componentes fundamentales que trabajan sinérgicamente para lograr un control robusto independiente del modelo preciso de la planta. El **Generador de Trayectorias** transforma referencias abruptas en perfiles suaves, preservando los actuadores de esfuerzos bruscos. El **Observador de Estados Extendido (ESO)**, corazón del ADRC, estima en tiempo real tanto los estados no medibles como las perturbaciones totales (internas y externas), agrupándolas en una única señal a compensar. Finalmente, la **Ley de Control** combina realimentación de estados y cancelación activa de perturbaciones, simplificando el sistema a una cadena de integradores nominales. Esta arquitectura permite controlar sistemas complejos con sólo conocer su orden dinámico y una aproximación gruesa de su ganancia, demostrando especial eficacia en sistemas no lineales, de parámetros variables o bajo perturbaciones significativas, superando así limitaciones clásicas del control PID tradicional.
 
 ## 1. Generador de Trayectorias
+
+![image](https://github.com/user-attachments/assets/61b963af-447b-4cc8-a84a-c2e3dc712e97)
+
+fig 1.Generador de Trayectorias
+
 Define la referencia deseada para el sistema. Ejemplo:
 
 Para un sistema de segundo orden, el generador puede ser:  
