@@ -64,7 +64,7 @@ def generate_trajectory(t, r, wn, zeta):
 import matplotlib.pyplot as plt
 
 t = np.linspace(0, 5, 500)
-r = np.ones_like(t)  # Referencia escalón
+r = np.ones_like(t)   Referencia escalón
 y, yd, ydd = generate_trajectory(t, r, wn=2.0, zeta=0.7)
 
 plt.figure(figsize=(10,6))
