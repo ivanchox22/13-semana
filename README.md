@@ -540,8 +540,9 @@ Sea $(x_0, u_0)$ tal que $\dot{x} = 0$:
 $0 = -k_1 x_0 - k_2 \sin(x_0) + c u_0$
 
 **Paso 2:** Expansión en serie de Taylor  
-
-$\Delta \dot{x} \approx \left.\frac{\partial f}{\partial x}\right|_{x_0} \Delta x + \left.\frac{\partial f}{\partial u}\right|_{u_0} \Delta u=$  
+```math
+\Delta \dot{x} \approx \left.\frac{\partial f}{\partial x}\right|_{x_0} \Delta x + \left.\frac{\partial f}{\partial u}\right|_{u_0} \Delta u=
+```
 
 Donde:  
 $\frac{\partial f}{\partial x} = -k_1 - k_2 \cos(x), \quad \frac{\partial f}{\partial u} = c$
