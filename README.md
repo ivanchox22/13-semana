@@ -1,7 +1,5 @@
 # Control por Rechazo Activo de Perturbaciones (ADRC)
 
-## Introducción
-
 El Control por Rechazo Activo de Perturbaciones (ADRC, por sus siglas en inglés *Active Disturbance Rejection Control*) es una técnica avanzada de control que surge como una alternativa robusta al control PID tradicional. Desarrollado por el Dr. Zhiqiang Gao, el ADRC busca mitigar las limitaciones del PID, especialmente su dependencia de un modelo preciso de la planta y su sensibilidad a perturbaciones externas e incertidumbres internas. 
 
 El ADRC se basa en tres pilares fundamentales:
