@@ -112,6 +112,77 @@ for i = 1:n+1
     beta(i) = factorial(n+1)/(factorial(i)*factorial(n+1-i)) * wo^i;
 end
 ```
+# 📘 Ejemplos de Observador de Estados Extendido (ESO)
+
+## 🧩 Ejemplo 1: ESO para un sistema lineal de segundo orden (tiempo continuo)
+
+Consideremos un sistema lineal:
+
+$$
+\ddot{x}(t) + a_1 \dot{x}(t) + a_0 x(t) = b \cdot u(t)
+$$
+
+Se puede escribir como sistema de estado:
+
+$$
+\begin{cases}
+\dot{x}_1 = x_2 \\
+\dot{x}_2 = -a_1 x_2 - a_0 x_1 + b u(t) + d(t)
+\end{cases}
+$$
+
+El ESO estima $x_1$, $x_2$ y la perturbación $d(t)$:
+
+$$
+\begin{cases}
+\dot{z}_1 = z_2 + L_1 \cdot (y - z_1) \\
+\dot{z}_2 = -a_1 z_2 - a_0 z_1 + b u(t) + z_3 + L_2 \cdot (y - z_1) \\
+\dot{z}_3 = L_3 \cdot (y - z_1)
+\end{cases}
+$$
+
+Donde:
+
+- $z_1 \approx x_1$
+- $z_2 \approx x_2$
+- $z_3 \approx d(t)$
+- $e(t) = y(t) - z_1(t)$
+
+---
+
+## 🧮 Ejemplo 2: ESO en tiempo discreto (Euler)
+
+```python
+# Parámetros del sistema
+a0 = 2
+a1 = 3
+b = 1
+Ts = 0.001
+omega = 30
+
+# Ganancias del ESO
+L1 = 3 * omega
+L2 = 3 * omega**2
+L3 = omega**3
+
+# Inicialización de estados
+z1 = 0
+z2 = 0
+z3 = 0
+
+def ESO_discrete_step(y, u):
+    global z1, z2, z3
+    e = y - z1
+    dz1 = z2 + L1 * e
+    dz2 = -a1*z2 - a0*z1 + b*u + z3 + L2 * e
+    dz3 = L3 * e
+
+    z1 += Ts * dz1
+    z2 += Ts * dz2
+    z3 += Ts * dz3
+
+    return z1, z2, z3
+
 
 ### 3. Ley de Control del ADRC
 
@@ -146,6 +217,11 @@ $\ddot{y} = \frac{u}{M} + \epsilon(t), \quad \epsilon(t) = -\frac{B}{M}\dot{y} -
 ---
 
 ### 4 Explicación del Tema: Rechazo Activo a Perturbaciones en Sistemas No Lineales  
+
+![image](https://github.com/user-attachments/assets/35f85db7-d293-4b7c-bd41-e8346f045f29)
+
+Fig 4. Explicación del Tema: Rechazo Activo a Perturbaciones en Sistemas No Lineales .
+
 
 El **Rechazo Activo a Perturbaciones (RAP)** es una técnica de control avanzada diseñada para mitigar o eliminar los efectos de perturbaciones externas o internas en sistemas dinámicos, especialmente en aquellos que son **no lineales**.  
 
