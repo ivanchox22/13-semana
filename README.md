@@ -357,6 +357,10 @@ u(t) = K_p e(t) + K_i \int e(t)dt + K_d \frac{de(t)}{dt}
 
 ## 6 Observador de Luenberger
 
+![image](https://github.com/user-attachments/assets/6f358124-4cb3-4edb-8208-974cb539c0dc)
+
+Fig 5. Observador de Luenberger.
+
 En sistemas de control, no siempre es posible medir todas las variables de estado del sistema. Para estimar estas variables no medibles, se utilizan **observadores**. Uno de los más comunes y fundamentales es el **Observador de Luenberger**, diseñado para sistemas lineales.
 
 Este observador reconstruye el estado del sistema a partir de la salida medida y la entrada conocida, permitiendo así implementar técnicas de control de estado incluso cuando no se dispone de todos los estados del sistema.
@@ -558,17 +562,6 @@ El **Control de Rechazo Activo de Perturbaciones No Lineal (NADRC)** es una exte
   Es la **ganancia de entrada estimada** del sistema. Aunque no necesita ser exacta, debe estar lo suficientemente cerca del valor real para que la ley de control funcione adecuadamente. Se utiliza para calcular la acción de control compensando la perturbación estimada.
 
 Estos parámetros deben ser ajustados cuidadosamente según la dinámica de la planta y los requisitos de desempeño. En general, **valores más pequeños de alpha y delta** aumentan la precisión, pero también la sensibilidad al ruido; mientras que una estimación incorrecta de **b₀** puede afectar la estabilidad del controlador.
-
-
-# 🧪 Ejercicio 3: Variación paramétrica
-
-Simular un ADRC para la siguiente planta:
-
-$$
-\ddot{y} = (4.75 - 4.5y)u + 0.7\dot{y} - 0.25y
-$$
-
-**Objetivo:** Evaluar el desempeño del controlador frente a perturbaciones en rampa y en forma sinusoidal.
 
 
 ---
