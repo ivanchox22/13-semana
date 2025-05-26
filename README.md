@@ -123,9 +123,11 @@ $u = \frac{u_0 - z_{n+1}}{b_0}$
 ### Ejercicio 1: Diseño de un ADRC para un sistema masa-resorte-amortiguador
 
 **Planta**:  
-\[ M\ddot{y} + B\dot{y} + Ky = u(t) + w(t) \]  
+$M\ddot{y} + B\dot{y} + Ky = u(t) + w(t)$
+
 **Paso 1**: Reformular como:  
-\[ \ddot{y} = \frac{u}{M} + \epsilon(t), \quad \epsilon(t) = -\frac{B}{M}\dot{y} - \frac{K}{M}y + w(t) \]  
+
+$\ddot{y} = \frac{u}{M} + \epsilon(t), \quad \epsilon(t) = -\frac{B}{M}\dot{y} - \frac{K}{M}y + w(t)$
 **Paso 2**: Diseñar ESO para estimar \( \epsilon(t) \).  
 **Paso 3**: Implementar la ley de control con polos en \( s = -15 \) (críticamente amortiguado).
 
@@ -189,6 +191,190 @@ El **Rechazo Activo a Perturbaciones (RAP)** en sistemas lineales es una estrate
 u(t) = K_p e(t) + K_i \int e(t)dt + K_d \frac{de(t)}{dt}
 ```
 
+
+
+
+
+
+
+
+
+### 6 Observador de Luenberger
+
+En sistemas de control, no siempre es posible medir todas las variables de estado del sistema. Para estimar estas variables no medibles, se utilizan **observadores**. Uno de los más comunes y fundamentales es el **Observador de Luenberger**, diseñado para sistemas lineales.
+
+Este observador reconstruye el estado del sistema a partir de la salida medida y la entrada conocida, permitiendo así implementar técnicas de control de estado incluso cuando no se dispone de todos los estados del sistema.
+
+---
+
+#### Representación del Sistema
+
+Consideremos un sistema lineal invariante en el tiempo representado en espacio de estados:
+
+```math
+\[
+\begin{aligned}
+\dot{x}(t) &= Ax(t) + Bu(t) \\
+y(t) &= Cx(t)
+\end{aligned}
+\]
+
+```
+
+donde:
+- $x(t) \in \mathbb{R}^n \)$ es el vector de estado,
+- $u(t) \in \mathbb{R}^m \)$ es la entrada,
+- $y(t) \in \mathbb{R}^p \)$ es la salida,
+- $( A, B, C \)$ son matrices de dimensiones apropiadas.
+
+---
+
+#### Observador de Luenberger
+
+El observador de Luenberger estima el estado \( \hat{x}(t) \) del sistema mediante:
+
+```math
+\[
+\begin{aligned}
+\dot{\hat{x}}(t) &= A\hat{x}(t) + Bu(t) + L(y(t) - \hat{y}(t)) \\
+\hat{y}(t) &= C\hat{x}(t)
+\end{aligned}
+\]
+
+```
+
+donde:
+- $\hat{x}(t)$ es el estado estimado,
+- \( L \) es la **ganancia del observador**, diseñada para garantizar estabilidad y rapidez de la estimación.
+
+---
+
+#### Dinámica del Error
+
+Definimos el **error de estimación** como:
+
+$e(t) = x(t) - \hat{x}(t)$
+
+Derivando:
+
+```math
+\[
+\begin{aligned}
+\dot{e}(t) &= \dot{x}(t) - \dot{\hat{x}}(t) \\
+&= Ax(t) + Bu(t) - \left[A\hat{x}(t) + Bu(t) + L(y - \hat{y})\right] \\
+&= A(x - \hat{x}) - L(Cx - C\hat{x}) \\
+&= (A - LC)e(t)
+\end{aligned}
+\]
+
+```
+
+Por lo tanto, la **dinámica del error** depende de la matriz \( A - LC \). El observador será **estable** si los autovalores de \( A - LC \) están en el semiplano izquierdo del plano complejo (para sistemas continuos).
+
+---
+
+#### Ejercicio Resuelto
+
+#### Sistema:
+$$
+\[
+A = \begin{bmatrix} 0 & 1 \\ -2 & -3 \end{bmatrix}, \quad
+B = \begin{bmatrix} 0 \\ 1 \end{bmatrix}, \quad
+C = \begin{bmatrix} 1 & 0 \end{bmatrix}
+\]$$
+
+**Diseñar un observador de Luenberger** tal que los polos del observador estén en \( s = -5 \pm 1 \).
+
+#### Paso 1: Confirmar observabilidad
+
+Calculamos la matriz de observabilidad:
+$$
+\[
+\mathcal{O} = \begin{bmatrix} C \\ CA \end{bmatrix} = 
+\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}
+\]$$
+
+Es de rango completo \( \Rightarrow \) el sistema es observable.
+
+---
+
+### Paso 2: Colocar los polos del observador
+
+Queremos que \( A - LC \) tenga los polos en \( s = -5 \pm 1 \), lo que corresponde al polinomio característico:
+
+$(s + 5 - 1)(s + 5 + 1) = s^2 + 10s + 26$
+
+Supongamos:
+
+$L = \begin{bmatrix} l_1 \\ l_2 \end{bmatrix}$
+
+Entonces:
+
+$$
+A - LC = \begin{bmatrix} 0 & 1 \\ -2 & -3 \end{bmatrix} - 
+\begin{bmatrix} l_1 \\ l_2 \end{bmatrix} [1 \quad 0] =
+\begin{bmatrix} -l_1 & 1 \\ -2 - l_2 & -3 \end{bmatrix}$$
+
+Calculamos el polinomio característico de \( A - LC \):
+
+$$
+\det(sI - (A - LC)) = \left| 
+\begin{bmatrix} s + l_1 & -1 \\ 2 + l_2 & s + 3 \end{bmatrix}
+\right| = (s + l_1)(s + 3) + (2 + l_2)$$
+
+$= s^2 + (l_1 + 3)s + (3l_1 + 2 + l_2)$
+
+Igualamos con \( s^2 + 10s + 26 \):
+
+
+$l_1 + 3 = 10 \Rightarrow l_1 = 7$
+$3l_1 + 2 + l_2 = 26 \Rightarrow 21 + 2 + l_2 = 26 \Rightarrow l_2 = 3$
+
+---
+
+#### Resultado:
+
+$L = \begin{bmatrix} 7 \\ 3 \end{bmatrix}$
+
+---
+
+#### Ejercicio Propuesto
+
+Dado el sistema:
+
+
+$A = \begin{bmatrix} 1 & 2 \\ 0 & 3 \end{bmatrix}, \quad$
+$B = \begin{bmatrix} 0 \\ 1 \end{bmatrix}, \quad$
+$C = \begin{bmatrix} 1 & 1 \end{bmatrix}$
+
+1. Verifica si el sistema es observable.  
+2. Diseña un observador de Luenberger con polos en \( s = -2 \) y \( s = -4 \).  
+3. Calcula la matriz \( L \).  
+
+*Tip:* Usa el método de asignación de polos mediante comparación de polinomios característicos.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Ejercicios Adicionales
 
 ### Ejercicio 3: Sistema no lineal con acoplamiento trigonométrico
@@ -229,25 +415,53 @@ b0 = c       # Ganancia aproximada
 
 ### Ejercicio 3: Variación paramétrica
 Simular un ADRC para:  
-\[ \ddot{y} = (4.75 - 4.5y)u + 0.7\dot{y} - 0.25y \]  
+
+$\ddot{y} = (4.75 - 4.5y)u + 0.7\dot{y} - 0.25y$
 Evaluar desempeño con perturbaciones en rampa y sinusoidal.
 
 ---
 
 ## Conclusiones
 
-- El ADRC ofrece robustez frente a incertidumbres y perturbaciones, superando limitaciones del PID.  
-- Su implementación requiere sintonizar menos parámetros que un controlador convencional.  
-- Aplicaciones industriales incluyen robótica, control de motores y procesos químicos.  
+- El control por Rechazo Activo de Perturbaciones (ADRC) ha demostrado ser una estrategia efectiva y robusta frente a incertidumbres del modelo y perturbaciones externas. A diferencia de los controladores PID tradicionales, cuya eficacia puede verse comprometida por variaciones en la dinámica del sistema, el ADRC permite una mejor adaptación y rendimiento en entornos cambiantes o poco conocidos, lo que lo convierte en una alternativa más confiable para sistemas complejos y de alta exigencia.
 
-**Desafíos**:  
-- Complejidad computacional en sistemas de alto orden.  
-- Requiere ajuste cuidadoso del ESO para evitar ruido en la estimación.  
+- Una de las ventajas más significativas del ADRC es que su implementación práctica requiere la sintonización de un menor número de parámetros en comparación con los controladores clásicos. Esto simplifica el proceso de diseño y ajuste, reduciendo el tiempo de puesta en marcha del sistema y minimizando el riesgo de errores asociados a una configuración inadecuada. Además, su estructura modular facilita la personalización según las necesidades específicas del sistema a controlar.
+
+- El ADRC ha ganado terreno en diversas aplicaciones industriales debido a sus beneficios en cuanto a estabilidad y desempeño. Entre sus usos más destacados se encuentran el control de movimiento en sistemas robóticos, el control de velocidad y posición en motores eléctricos, así como el control de variables críticas en procesos químicos. Su capacidad para compensar perturbaciones de manera dinámica lo hace especialmente útil en entornos donde la precisión y la estabilidad son fundamentales para garantizar un funcionamiento óptimo y seguro.
+
+- El ADRC se adapta eficientemente tanto a sistemas lineales como no lineales, gracias a su enfoque basado en observadores que permiten estimar dinámicamente las perturbaciones internas y externas del sistema, mejorando la precisión del control sin necesidad de un modelo matemático exacto.
+
+- Este enfoque de control promueve una mayor estabilidad y rapidez en la respuesta transitoria del sistema, lo que lo hace especialmente útil en aplicaciones donde se requiere un alto desempeño dinámico, como el seguimiento de trayectorias y sistemas de tiempo real.
+
+- El observador de estado extendido (ESO), elemento clave del ADRC, proporciona información crítica para estimar en tiempo real las perturbaciones totales, permitiendo una compensación inmediata que mejora la eficiencia energética y la vida útil de los actuadores en sistemas mecatrónicos.
+
+- La filosofía del ADRC se basa en asumir que todo lo desconocido puede tratarse como una perturbación total, lo cual libera al diseñador del controlador de depender de modelos precisos y permite su uso en sistemas con alto grado de incertidumbre estructural o variaciones paramétricas.
+
+- Su creciente adopción en sectores como la automatización industrial, vehículos autónomos, sistemas aeroespaciales y control de energía demuestra que el ADRC no solo es una herramienta académica, sino una solución con impacto real en la mejora del desempeño y confiabilidad de sistemas complejos.
 
 ---
 
 ## Referencias
 
-1. Gao, Z. (2014). *Active Disturbance Rejection Control: A Paradigm Shift in Feedback Control Design*. IEEE.  
-2. Universidad ECCI. (2025). *Material del curso Control de Movimiento*.  
-3. Guo, B. Z., & Zhao, Z. L. (2016). *On Convergence of Nonlinear Active Disturbance Rejection Control*. SIAM Journal on Control and Optimization.  
+1. **Gao, Z.** (2014). *Active Disturbance Rejection Control: A Paradigm Shift in Feedback Control Design*. IEEE.  
+   Este artículo pionero introduce el ADRC como una nueva filosofía de diseño de controladores, enfatizando su capacidad para compensar perturbaciones sin requerir un modelo preciso del sistema.
+
+2. **Universidad ECCI.** (2025). *Material del curso Control de Movimiento*.  
+   Recurso didáctico esencial para comprender la implementación y análisis del ADRC en sistemas reales, con orientación práctica y contextualizada al entorno académico.
+
+3. **Guo, B. Z., & Zhao, Z. L.** (2016). *On Convergence of Nonlinear Active Disturbance Rejection Control*. *SIAM Journal on Control and Optimization*.  
+   Trabajo académico que respalda teóricamente la convergencia del ADRC en sistemas no lineales, aportando rigurosidad matemática al diseño del controlador.
+
+4. **Han, J.** (2009). *From PID to Active Disturbance Rejection Control*. *IEEE Transactions on Industrial Electronics*.  
+   Jianbo Han es uno de los investigadores más influyentes en el desarrollo del ADRC. Este artículo presenta la transición del enfoque clásico PID al ADRC, mostrando casos comparativos y argumentos sólidos para su adopción.
+
+5. **Zhao, K., & Gao, Z.** (2012). *Nonlinear Control System Design Based on ADRC*. *Proceedings of the American Control Conference*.  
+   Explora el diseño del ADRC aplicado a sistemas no lineales, con simulaciones y resultados experimentales que evidencian su eficacia frente a controladores tradicionales.
+
+6. **Zhou, Y., & Han, J.** (2005). *A New Control Strategy: Active Disturbance Rejection Control (ADRC)*. *Control and Decision Conference*.  
+   Esta obra temprana proporciona una introducción estructurada a la estrategia ADRC, definiendo su marco general y componentes fundamentales, como el Observador de Estado Extendido (ESO).
+
+7. **Chen, W. H., Ballance, D. J., & Gawthrop, P. J.** (2000). *A Nonlinear Disturbance Observer for Robotic Manipulators*. *IEEE Transactions on Industrial Electronics*.  
+   Aunque no aborda directamente el ADRC, presenta conceptos de observadores de perturbaciones que son esenciales en la arquitectura de ADRC, particularmente para sistemas robóticos.
+
+
