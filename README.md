@@ -10,6 +10,25 @@ El ADRC se basa en tres pilares fundamentales:
 Esta técnica ha demostrado ser efectiva en aplicaciones de control de movimiento y procesos industriales, donde las perturbaciones y variaciones paramétricas son comunes.
 
 ---
+## Definiciones
+
+> 🔑 **_ADRC (Active Disturbance Rejection Control)_**: Estrategia de control robusto que estima y cancela activamente perturbaciones mediante un observador de estados extendido (ESO), requiriendo mínimo conocimiento del modelo de la planta. Combina realimentación no lineal y compensación en tiempo real de incertidumbres.
+
+> 🔑 **_Observador de Estados Extendido (ESO)_**: Componente clave del ADRC que expande el espacio de estados para incluir la "perturbación total" como estado adicional, permitiendo su estimación y posterior cancelación. Opera bajo el principio de que cualquier desviación del modelo nominal puede tratarse como perturbación.
+
+> 🔑 **_Perturbación Total (ε(t))_**: Término agregado que engloba dinámicas no modeladas, variaciones paramétricas y perturbaciones externas. El ESO estima ε(t) como un estado extendido, simplificando el diseño del controlador.
+
+> 🔑 **_Ley de Control ADRC_**:
+> ```math
+> u = \frac{u_0 - \hat{ε}(t)}{b_0}
+> ```
+> donde \( u_0 \) es la señal de control nominal y \( b_0 \) la ganancia aproximada de la planta. Esta estructura transforma el sistema en una cascada de integradores.
+
+> 🔑 **_Función fal(e, α, δ)_**: Función no lineal usada en NADRC para manejar errores grandes/pequeños de forma diferenciada:
+> ```python
+> def fal(e, alpha, delta):
+>     return e/(delta**(1-alpha)) if abs(e)<=delta else abs(e)**alpha*sign(e)
+> ```
 
 ## Componentes del ADRC
 
