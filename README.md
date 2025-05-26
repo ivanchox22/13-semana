@@ -548,7 +548,9 @@ $\frac{\partial f}{\partial x} = -k_1 - k_2 \cos(x), \quad \frac{\partial f}{\pa
 
 **Resultado linealizado:**  
 
-$\Delta \dot{x} = (-k_1 - k_2 \cos(x_0)) \Delta x + c \Delta u$
+```math
+\Delta \dot{x} = (-k_1 - k_2 \cos(x_0)) \Delta x + c \Delta u
+```
 
 #### 2. Diseño de NADRC con función `fal(e, α, δ)`
 
