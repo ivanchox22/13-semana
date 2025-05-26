@@ -152,7 +152,7 @@ Donde:
 
 ## 💡  Ejemplo 2: ESO en tiempo discreto (Euler)
   
-# Parámetros del sistema
+### Parámetros del sistema
 $$
 a0 = 2
 a1 = 3
@@ -161,14 +161,14 @@ Ts = 0.001
 omega = 30
 $$
 
-# Ganancias del ESO
+### Ganancias del ESO
 $$
 L1 = 3 * omega
 L2 = 3 * omega**2
 L3 = omega**3
 $$
 
-# Inicialización de estados
+### Inicialización de estados
 $$
 z1 = 0
 z2 = 0
