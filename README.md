@@ -448,10 +448,11 @@ C = \begin{bmatrix} 1 & 0 \end{bmatrix}
 #### Paso 1: Confirmar observabilidad
 
 Calculamos la matriz de observabilidad:
-$$
+
+```math
 \mathcal{O} = \begin{bmatrix} C \\ CA \end{bmatrix} = 
 \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}
-$$
+```
 
 Es de rango completo \( \Rightarrow \) el sistema es observable.
 
@@ -465,8 +466,9 @@ $(s + 5 - 1)(s + 5 + 1) = s^2 + 10s + 26$
 
 Supongamos:
 
-$L = \begin{bmatrix} l_1 \\ l_2 \end{bmatrix}$
-
+```math
+L = \begin{bmatrix} l_1 \\ l_2 \end{bmatrix}
+```
 Entonces:
 
 $$
@@ -493,7 +495,9 @@ $3l_1 + 2 + l_2 = 26 \Rightarrow 21 + 2 + l_2 = 26 \Rightarrow l_2 = 3$
 
 #### Resultado:
 
-$L = \begin{bmatrix} 7 \\ 3 \end{bmatrix}$
+```math
+L = \begin{bmatrix} 7 \\ 3 \end{bmatrix}
+```
 
 ---
 
