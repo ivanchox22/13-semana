@@ -289,10 +289,9 @@ C = \begin{bmatrix} 1 & 0 \end{bmatrix}
 
 Calculamos la matriz de observabilidad:
 $$
-\[
 \mathcal{O} = \begin{bmatrix} C \\ CA \end{bmatrix} = 
 \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}
-\]$$
+$$
 
 Es de rango completo \( \Rightarrow \) el sistema es observable.
 
@@ -343,8 +342,10 @@ $L = \begin{bmatrix} 7 \\ 3 \end{bmatrix}$
 Dado el sistema:
 
 
-$A = \begin{bmatrix} 1 & 2 \\ 0 & 3 \end{bmatrix}, \quad$
-$B = \begin{bmatrix} 0 \\ 1 \end{bmatrix}, \quad$
+$A = \begin{bmatrix} 1 & 2 \\ 0 & 3 \end{bmatrix}$
+
+$B = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$
+
 $C = \begin{bmatrix} 1 & 1 \end{bmatrix}$
 
 1. Verifica si el sistema es observable.  
