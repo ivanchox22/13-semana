@@ -18,18 +18,6 @@ Esta técnica ha demostrado ser efectiva en aplicaciones de control de movimient
 
 > 🔑 **_Perturbación Total (ε(t))_**: Término agregado que engloba dinámicas no modeladas, variaciones paramétricas y perturbaciones externas. El ESO estima ε(t) como un estado extendido, simplificando el diseño del controlador.
 
-> 🔑 **_Ley de Control ADRC_**:
-> ```math
-> u = \frac{u_0 - \hat{ε}(t)}{b_0}
-> ```
-> donde \( u_0 \) es la señal de control nominal y \( b_0 \) la ganancia aproximada de la planta. Esta estructura transforma el sistema en una cascada de integradores.
-
-> 🔑 **_Función fal(e, α, δ)_**: Función no lineal usada en NADRC para manejar errores grandes/pequeños de forma diferenciada:
-> ```python
-> def fal(e, alpha, delta):
->     return e/(delta**(1-alpha)) if abs(e)<=delta else abs(e)**alpha*sign(e)
-> ```
-
 ## Componentes del ADRC
 
 El **Control por Rechazo Activo de Perturbaciones (ADRC)** se estructura en tres componentes fundamentales que trabajan sinérgicamente para lograr un control robusto independiente del modelo preciso de la planta. El **Generador de Trayectorias** transforma referencias abruptas en perfiles suaves, preservando los actuadores de esfuerzos bruscos. El **Observador de Estados Extendido (ESO)**, corazón del ADRC, estima en tiempo real tanto los estados no medibles como las perturbaciones totales (internas y externas), agrupándolas en una única señal a compensar. Finalmente, la **Ley de Control** combina realimentación de estados y cancelación activa de perturbaciones, simplificando el sistema a una cadena de integradores nominales. Esta arquitectura permite controlar sistemas complejos con sólo conocer su orden dinámico y una aproximación gruesa de su ganancia, demostrando especial eficacia en sistemas no lineales, de parámetros variables o bajo perturbaciones significativas, superando así limitaciones clásicas del control PID tradicional.
@@ -72,19 +60,69 @@ def generate_trajectory(t, r, wn, zeta):
 
 #### 1.2 Ejemplo de Uso
 
+```math
+import matplotlib.pyplot as plt
 
+t = np.linspace(0, 5, 500)
+r = np.ones_like(t)  # Referencia escalón
+y, yd, ydd = generate_trajectory(t, r, wn=2.0, zeta=0.7)
 
+plt.figure(figsize=(10,6))
+plt.plot(t, r, 'r--', label='Referencia')
+plt.plot(t, y, 'b-', label='Trayectoria generada')
+plt.legend(); plt.grid(True)
+plt.title('Generador de Trayectorias ADRC')
+plt.show()
+```
 
 ### 2. Observador de Estados Extendido (ESO)
+
+El **Observador de Estados Extendido (ESO** es el componente central del control ADRC que permite estimar y compensar perturbaciones en tiempo real sin requerir un modelo preciso del sistema. Su funcionamiento se basa en expandir el espacio de estados tradicional para incluir no solo las variables de estado físicas, sino también un "estado extendido" que representa la perturbación total que afecta al sistema (incluyendo dinámicas no modeladas, perturbaciones externas y variaciones paramétricas).
+
+El ESO opera mediante un conjunto de ecuaciones diferenciales acopladas que comparan continuamente la salida real del sistema con la salida estimada, ajustando dinámicamente sus estados internos. Para un sistema de segundo orden, por ejemplo, utiliza tres ecuaciones: dos para estimar los estados físicos (posición y velocidad) y una tercera para estimar la perturbación agregada. Las ganancias del observador (β) se sintonizan típicamente en función de un único parámetro (el ancho de banda ωₒ), lo que simplifica notablemente su implementación práctica.
+
+La verdadera potencia del ESO radica en su capacidad para transformar virtualmente cualquier sistema en una cadena simple de integradores, independientemente de sus no linealidades o perturbaciones. Esto se logra estimando la perturbación total en tiempo real y cancelándola directamente en la ley de control. Como resultado, el controlador solo necesita manejar la dinámica nominal simplificada, haciendo que el sistema en lazo cerrado sea inherentemente robusto y fácil de sintonizar.
+
+#### 2.1 Implementación
+
 Estima estados no medibles y perturbaciones. Para un sistema lineal:  
-\[
-\begin{cases} 
-\dot{z}_1 = z_2 + L_1(y - z_1) \\ 
-\dot{z}_2 = z_3 + b_0 u + L_2(y - z_1) \\ 
-\dot{z}_3 = L_3(y - z_1) 
+
+```math
+\begin{cases}
+\dot{z}_1 = z_2 + \beta_1(y - z_1) \\
+\dot{z}_2 = z_3 + \beta_2(y - z_1) + b_0u \\
+\dot{z}_3 = \beta_3(y - z_1)
 \end{cases}
-\]  
-Aquí, \( z_3 \) estima la "perturbación total" \( \epsilon(t) \).
+```
+
+#### 2.2 Implementación Discreta en pyton
+
+```math
+class ESO:
+    def __init__(self, beta, b0, dt):
+        self.beta = np.array(beta)
+        self.b0 = b0
+        self.dt = dt
+        self.z = np.zeros(3)
+        
+    def update(self, y, u):
+        e = y - self.z[0]
+        self.z[0] += (self.z[1] + self.beta[0]*e) * self.dt
+        self.z[1] += (self.z[2] + self.beta[1]*e + self.b0*u) * self.dt
+        self.z[2] += self.beta[2]*e * self.dt
+        return self.z
+```
+#### 2.3 Demostracion en MATLAB
+
+```math
+% MATLAB: Cálculo de ganancias para ancho de banda wo
+n = 2;  % Orden del sistema
+wo = 30; % Frecuencia del observador
+beta = zeros(n+1,1);
+for i = 1:n+1
+    beta(i) = factorial(n+1)/(factorial(i)*factorial(n+1-i)) * wo^i;
+end
+```
 
 ### 3. Ley de Control
 Combina realimentación de estados y compensación de perturbaciones:  
