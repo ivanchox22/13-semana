@@ -544,16 +544,32 @@ def fal(e, alpha, delta):
     return np.abs(e)**alpha * np.sign(e) if np.abs(e) > delta else e/(delta**(1-alpha))
 ```
 
-# Parámetros NADRC
-alpha = 0.5  # Factor no lineal
-delta = 0.1  # Zona lineal
-b0 = c       # Ganancia aproximada
+# Descripción de los Parámetros del NADRC
 
-### Ejercicio 3: Variación paramétrica
-Simular un ADRC para:  
+El **Control de Rechazo Activo de Perturbaciones No Lineal (NADRC)** es una extensión del ADRC clásico que incorpora funciones no lineales para mejorar la robustez y el desempeño frente a perturbaciones y variaciones del modelo. A continuación se describen sus principales parámetros:
 
-$\ddot{y} = (4.75 - 4.5y)u + 0.7\dot{y} - 0.25y$
-Evaluar desempeño con perturbaciones en rampa y sinusoidal.
+- **alpha**:  
+  Representa el **grado de no linealidad** en la función de corrección del error. Se encuentra en el rango (0, 1] y define la forma de la función tipo fal (fast approximation of linear function), usada para estabilizar el observador. Valores más bajos aumentan la no linealidad, pero pueden hacer más lento el seguimiento.
+
+- **delta**:  
+  Define la **zona lineal** dentro de la función `fal()`. Para errores menores a `delta`, la función actúa de manera lineal; para errores mayores, se comporta de forma no lineal. Este parámetro ayuda a suavizar el comportamiento del sistema cerca del punto de equilibrio.
+
+- **b₀ (b0)**:  
+  Es la **ganancia de entrada estimada** del sistema. Aunque no necesita ser exacta, debe estar lo suficientemente cerca del valor real para que la ley de control funcione adecuadamente. Se utiliza para calcular la acción de control compensando la perturbación estimada.
+
+Estos parámetros deben ser ajustados cuidadosamente según la dinámica de la planta y los requisitos de desempeño. En general, **valores más pequeños de alpha y delta** aumentan la precisión, pero también la sensibilidad al ruido; mientras que una estimación incorrecta de **b₀** puede afectar la estabilidad del controlador.
+
+
+# 🧪 Ejercicio 3: Variación paramétrica
+
+Simular un ADRC para la siguiente planta:
+
+$$
+\ddot{y} = (4.75 - 4.5y)u + 0.7\dot{y} - 0.25y
+$$
+
+**Objetivo:** Evaluar el desempeño del controlador frente a perturbaciones en rampa y en forma sinusoidal.
+
 
 ---
 
